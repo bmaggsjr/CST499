@@ -16,7 +16,7 @@
 <h2> Please enter your student or staff User ID and password:
 
 <form method="POST" action="myLogin.php">
-  <p>UserID: <input type="text" name="UserID"></p>
+  <p>UserID: <input type="text" name="userid"></p>
   <p>Password: <input type="text" name="password"></p>
   <input type="submit">
   <input type="reset">

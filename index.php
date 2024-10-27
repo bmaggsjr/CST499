@@ -1,5 +1,8 @@
 <?php
-/* First release 10/22/2024
+/* 
+First release 10/22/2024
+v1.01 - added functionality for logged in users and entry into course
+selection.
 William Maggs
 CST499
 Notes:
@@ -14,6 +17,7 @@ if ($loggedIn == 'true') {
 // if logged start seesion and get current user
 	session_start();
 	$user = $_SESSION["currentUser"];
+//	echo 'current user is ' . $user; //debug use for tracking user
 	?>
 	<!DOCTYPE html>
 	<html>
@@ -33,7 +37,8 @@ if ($loggedIn == 'true') {
 		<a href="index.php?status=true">Home</a> |
 		<a href="contact.php">Contact Us</a> |
 		<a href="logout.php">Logout</a> |
-		<a href="profile.php">Profile</a>
+		<a href="enrollment.php">Course Selection</a>
+		<a href="viewmine.php"> View My Courses</a>
 	</nav>
 	<?php
 	}

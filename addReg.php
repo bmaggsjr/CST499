@@ -23,15 +23,21 @@ $host = 'localhost'; //host name
 $user = 'billmaggs'; //user name
 $passwd = 'passme'; //password
 $schema = $sname;
+
+try{
+ //place code here that could potentially throw an exception
+ 
 $con = new mysqli($host, $user, $passwd, $schema); //oop connection
-//$con = new mysqli($host, $user, $schema); //oop connection
 /* Did connection succeed? */
-if (!is_null($con->connect_error))
+}
+catch(Exception $e)
 {
-	echo 'connection failed<br>';
-	echo 'error number: ' . $con->connect_errno . '<br>';
-	echo 'error message: ' . $con->connect_error . '<br>';
-	die();
+  //We will catch ANY exception that the try block will throw
+
+	echo 'Error - connection failed<br>';
+    echo 'A connection to the University Database could not be completed, if this continues please<br>';
+    echo 'contact University IT support<br>';
+	die(); // Stop execution and allow to return home
 }
 echo $sname.' database connection successfull! </br>';
 return $con;
@@ -111,6 +117,48 @@ function displayTableAlt ($result)
 </table>
 <?php
 }
+
+/* -------------------Display User Data ----------------------- */
+
+function displayUser ($result)
+{
+?>
+<!-- setup the table border and header first -->
+<table border="1px" style="width:600px; line-height:40px;">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+<!-- now fill in the data into the body -->    
+    <tbody>
+      <?php
+ $row = mysqli_fetch_assoc($result);?>
+            <tr>
+                <td><?php echo $row['p_id']; ?></td>
+                <td><?php echo $row['p_email']; ?></td>
+                <td><?php echo $row['p_password']; ?></td>
+                <td><?php echo $row['p_fname']; ?></td>
+                <td><?php echo $row['p_lname']; ?></td>
+                <td><?php echo $row['p_address']; ?></td>
+                <td><?php echo $row['p_phone']; ?></td>
+                <td><?php echo $row['p_role']; ?></td>
+            <tr>
+        <?php
+//        }
+        ?>
+    </tbody>
+</table>
+<?php
+}
+
 /* ----------- Main script ------------------------------------ */
 
 /* ---------------- Debug Flags ----------------------------------- */
@@ -130,18 +178,19 @@ $p_phone = ($_POST['p_phone']);
 $sname = 'university';							// Temp hardcode the schema name
 $con=myConnect($sname); 							// Call the connect function and assign to $con
 
-// Put together the $sql variable to INSERT with the variable values, employee is default role
+// Put together the $sql variable to INSERT with the variable values, student is default role
 $sql = "INSERT INTO tbluser (p_email,p_password,p_fname,p_lname,p_address,p_phone,p_role)
-VALUES ('$p_email', '$p_password', '$p_fname', '$p_lname', '$p_address', '$p_phone', 'employee')";
+VALUES ('$p_email', '$p_password', '$p_fname', '$p_lname', '$p_address', '$p_phone', 'student')";
 executeQuery($con,$sql);
 
-$sql = "SELECT * FROM tbluser"; 					// Set the $sql variable for a wildcard table SELECT
-$result = executeSelectQuery($con, $sql); 			// Call the executeSelectQuery function, the <full>
-                                                    //updated table is now in $result
-if ($myVerbose == "on"){                            //check for debug on
-    displayTableAlt($result);						// if true, Display the updated table
-}
-
+//$sql = "SELECT * FROM tbluser"; 					// Set the $sql variable for a wildcard table SELECT
+$sql = "SELECT * FROM tblUser WHERE p_id=(SELECT max(p_id) FROM tbluser)";
+$result = executeSelectQuery($con, $sql);
+                 
+// Display the user information with UserID
+echo 'Registration succesful</br>';
+displayUser($result);
+echo 'REMEMBER your assigned User ID, you will need it to login!</br>';
 /* Housekeeping */
 mysqli_free_result($result);
 echo 'memory freed </br>';
