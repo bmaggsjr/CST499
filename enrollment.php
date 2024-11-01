@@ -19,7 +19,7 @@ $user = $_SESSION["currentUser"];
 
 <nav>
 	<a href="index.php?status=true">Home</a> |
-	<a href="catalog.php">View Courses</a> |
+	<a href="catalog.php">View Catalog</a> |
 	<a href="addcourse.php">Add a Course</a> |
     <a href="dropcourse.php">Drop a Course</a> |
 	<a href="waitlist.php">Request Waitlist</a> |

@@ -7,7 +7,7 @@ $user = $_SESSION["currentUser"];
 <html>
 
 <head>
-	<title> Drop a Course </title>
+	<title> Add to Course Catalog </title>
 	<style>
 			body {background-color: powderblue;}
 	</style>
@@ -15,13 +15,10 @@ $user = $_SESSION["currentUser"];
 </head>
 
 <body>
-<a href="enrollment.php">Course Selection</a> |
-<a href="addcourse.php">Add Course</a> |
-<!-- <a href="dropcourse.php">Drop Course</a> | -->
-<a href="waitlist.php">Waitlist</a> |
-<a href="catalog.php"> View Catalog</a> |
-
-<h1> Request a Drop</h1>
+<a href="index.php?status=true">Home</a> |
+<h1> Add to Catalog</h1>
+<h2> Welcome User ID  <?php echo $user; ?></h2>
+<h2> You have selected this course to add to the University Catalog</h2>
 
 
 <?php
@@ -63,7 +60,7 @@ function displayTable ($result)
             <th>Course Name</th>
             <th>Semester</th>
             <th>Capacity</th>
-            <th>Available</th>
+            <th>Filled</th>
         </tr>
     </thead>
 <!-- now fill in the data into the body -->    
@@ -85,23 +82,30 @@ function displayTable ($result)
 <?php
 }
 /* ----------------------------Main ------------------------------------- */
+
+// Use the $_POST superglobal to assign user data to variables
+$p_coursename = ($_POST['course']);
+$p_semester = ($_POST['semester']);
+$p_capacity = ($_POST['capacity']);
+$p_defaultfilled = 0;
 $sname = 'university';				    // Temp hardcode the schema name
 $con=myConnect($sname); 			    // Call the connect function and assign to $con
-$sql = "SELECT * FROM tblcatalog";	    // Set the $sql variable for the table
-$result = executeSelectQuery($con, $sql); 	    // Call the executeSelectQuery function
-displayTable($result);						    // Display the table
-?>
-<form method="POST" action="mydrop.php">
-  <p>Course ID to Drop: <input type="text" name="courseid"></p>
-  <input type="submit">
-  <input type="reset">
-</form>
-<?php
+
+// Put together the $sql variable to INSERT with the variable values, student is default role
+$sql = "INSERT INTO tblcatalog (p_cname,p_csemester,p_cseats,p_cfilled)
+VALUES ('$p_coursename', '$p_semester', '$p_capacity', '$p_defaultfilled')";
+executeSelectQuery($con,$sql);
+
+// Now verify
+$sql = "SELECT * FROM tblcatalog WHERE p_cid=(SELECT max(p_cid) FROM tblcatalog)";
+$result = executeSelectQuery($con, $sql);
+displayTable($result);
 /* Housekeeping */
 mysqli_free_result($result);
 //echo 'memory freed </br>';
 mysqli_close($con);
 //echo 'connection closed </br> goodbye';
 ?>
+
 </body>
 </html>

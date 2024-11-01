@@ -51,7 +51,7 @@ function executeSelectQuery($con,$sql)
 
 $sname = 'university';				    // Temp hardcode the schema name
 $con=myConnect($sname); 			    // Call the connect function and assign to $con
-$sql = "SELECT * FROM tblenrollment WHERE p_id = $user";	    // Set the $sql variable for the table
+$sql = "SELECT * FROM tblenrollment";	    // Set the $sql variable for the table
 $result = executeSelectQuery($con, $sql); 	    // Call the executeSelectQuery function
 while($row = mysqli_fetch_assoc($result)){
     $cid = $row['p_cid'];

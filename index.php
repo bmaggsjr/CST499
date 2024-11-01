@@ -17,30 +17,59 @@ if ($loggedIn == 'true') {
 // if logged start seesion and get current user
 	session_start();
 	$user = $_SESSION["currentUser"];
+	$role = $_SESSION["currentRole"];
+
+//	echo $role . '</br>';
+
 //	echo 'current user is ' . $user; //debug use for tracking user
-	?>
-	<!DOCTYPE html>
-	<html>
+	if ($role == 'student'){   //Role = Student Links
+		?>
+		<!DOCTYPE html>
+		<html>
 
-	<head>
-		<title> University Enrollment Website </title>
-		<style>
+		<head>
+			<title> University Enrollment Website </title>
+			<style>
 				body {background-color: powderblue;}
-		</style>
-		<meta name="author" content="Bill Maggs">
-	</head>
+			</style>
+			<meta name="author" content="Bill Maggs">
+		</head>
 
-	<body>
-	<h1> University Enrollment Homepage</h1>
+		<body>
+		<h1> University Enrollment Homepage</h1>
 
-	<nav>
-		<a href="index.php?status=true">Home</a> |
-		<a href="contact.php">Contact Us</a> |
-		<a href="logout.php">Logout</a> |
-		<a href="enrollment.php">Course Selection</a>
-		<a href="viewmine.php"> View My Courses</a>
-	</nav>
-	<?php
+		<nav>
+			<a href="index.php?status=true">Home</a> |
+			<a href="logout.php">Logout</a> |
+			<a href="enrollment.php">Course Selection</a> |
+			<a href="viewmine.php"> View My Courses</a>
+		</nav>
+		<?php
+		}
+	if ($role == 'admin'){
+			?>
+			<!DOCTYPE html>
+			<html>
+	
+			<head>
+				<title> University Admin Website </title>
+				<style>
+					body {background-color: powderblue;}
+				</style>
+				<meta name="author" content="Bill Maggs">
+			</head>
+	
+			<body>
+			<h1> University Enrollment Admin</h1>
+	
+			<nav>
+				<a href="index.php?status=true">Home</a> |
+				<a href="logout.php">Logout</a> |
+				<a href="addCatalog.php">Add to Course Catalog</a>
+				<a href="viewEnrolled.php">View Total Enrollment</a>
+			</nav>
+			<?php
+		}
 	}
 else
 // if not logged in show default home page

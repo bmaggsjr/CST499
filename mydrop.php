@@ -100,7 +100,7 @@ $result = executeSelectQuery($con, $sql); 	    // Call the executeSelectQuery fu
 $sql = "SELECT * FROM tblcatalog WHERE p_cid = $p_courseid";	    // Set the $sql variable for the table
 $result = executeSelectQuery($con, $sql); 	    // Call the executeSelectQuery function
 displayTable($result);
-$sql = "DELETE FROM tblenrollment WHERE p_id = $user AND p_cid = $p_courseid";
+$sql = "DELETE FROM tblenrollment WHERE p_id = $user AND p_cid = $p_courseid"; // Conditional delete
 executeSelectQuery($con,$sql);
 
 /* Housekeeping */

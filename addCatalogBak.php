@@ -1,5 +1,5 @@
 <?php
-// You won't get here unless there is a session with a valid user ..
+// You won't get here unless there is a session with a valid admin role ..
 session_start();
 $user = $_SESSION["currentUser"]; 
 ?>
@@ -7,7 +7,7 @@ $user = $_SESSION["currentUser"];
 <html>
 
 <head>
-	<title> Drop a Course </title>
+	<title> Add Course to Catalog </title>
 	<style>
 			body {background-color: powderblue;}
 	</style>
@@ -15,13 +15,11 @@ $user = $_SESSION["currentUser"];
 </head>
 
 <body>
-<a href="enrollment.php">Course Selection</a> |
-<a href="addcourse.php">Add Course</a> |
-<!-- <a href="dropcourse.php">Drop Course</a> | -->
-<a href="waitlist.php">Waitlist</a> |
-<a href="catalog.php"> View Catalog</a> |
+<a href="index.php?status=true">Home</a> |
+<a href="logout.php">Logout</a>
 
-<h1> Request a Drop</h1>
+<!-- <a href="catalog.php"> View Catalog</a> | -->
+<h1> Current Course Catalog</h1>
 
 
 <?php
@@ -63,7 +61,7 @@ function displayTable ($result)
             <th>Course Name</th>
             <th>Semester</th>
             <th>Capacity</th>
-            <th>Available</th>
+            <th>Current</th>
         </tr>
     </thead>
 <!-- now fill in the data into the body -->    
@@ -85,23 +83,25 @@ function displayTable ($result)
 <?php
 }
 /* ----------------------------Main ------------------------------------- */
+
 $sname = 'university';				    // Temp hardcode the schema name
 $con=myConnect($sname); 			    // Call the connect function and assign to $con
 $sql = "SELECT * FROM tblcatalog";	    // Set the $sql variable for the table
 $result = executeSelectQuery($con, $sql); 	    // Call the executeSelectQuery function
 displayTable($result);						    // Display the table
-?>
-<form method="POST" action="mydrop.php">
-  <p>Course ID to Drop: <input type="text" name="courseid"></p>
-  <input type="submit">
-  <input type="reset">
-</form>
-<?php
+echo '</br';
 /* Housekeeping */
 mysqli_free_result($result);
 //echo 'memory freed </br>';
 mysqli_close($con);
 //echo 'connection closed </br> goodbye';
 ?>
+<form method="POST" action="addNewCatalog.php">
+  <p>Course Name: <input type="text" name="course"></p>
+  <p>Semester: <input type="text" name="semester"></p>
+  <p>Seating Capacity: <input type="text" name="capacity"></p>
+  <input type="submit">
+  <input type="reset">
+</form>
 </body>
 </html>

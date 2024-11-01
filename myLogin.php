@@ -73,7 +73,7 @@ $password = ($_POST['password']);
 //set schema
 $sname = 'university';							// Temp hardcode the schema name
 $con=myConnect($sname); 							// Call the connect function and assign to $con
-$sql = "SELECT p_id, p_password FROM tbluser WHERE p_id='$id'";
+$sql = "SELECT p_id, p_password,p_role FROM tbluser WHERE p_id='$id'";
 $result = executeSelectQuery($con, $sql); 			// Call the executeSelectQuery function, the <full>
 //displayTable($result);
 
@@ -87,8 +87,11 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 if ($id == $row[0] && $password == $row[1]){
     echo 'User ID ' . $id . ' is logged in succesfully</br>';
     $loggedIn = true;
+    $role = $row[2];
+    echo 'Role is: ' . $role . '</br>';
     error_reporting(E_ALL & E_NOTICE & E_WARNING);
-    $_SESSION["currentUser"] = $id;
+    $_SESSION["currentUser"] = $id;     //save SESSION user
+    $_SESSION["currentRole"] = $role;   //save SESSION role
 }
     else {
         echo 'credentials not accepted</br>';

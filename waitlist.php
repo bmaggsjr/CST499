@@ -15,9 +15,11 @@ $user = $_SESSION["currentUser"];
 </head>
 
 <body>
-<a href="index.php?status=true">Home</a> |
+<a href="enrollment.php">Course Selection</a> |
 <a href="addcourse.php">Add Course</a> |
 <a href="dropcourse.php">Drop Course</a> |
+<!-- <a href="waitlist.php">Waitlist</a> | -->
+<a href="catalog.php"> View Catalog</a> |
 
 <?php
 
